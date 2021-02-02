@@ -36,4 +36,6 @@ $ node app.js
 Nomes repetidos nao sao permitidos. Caso o IP e a porta sejam diferentes do servidor, você não poderá entrar no chat
 <br>
 
+OBS: esse projeto teve como referência o projeto da DevMedia encontrado em:
+<a href="https://www.devmedia.com.br/como-criar-um-chat-com-node-js/33719">https://www.devmedia.com.br/como-criar-um-chat-com-node-js/33719</a>
 
