@@ -1,0 +1,179 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html,body{
+   /* height: 100%;*/
+}
+.clear{
+    clear: both;
+}
+.container{
+    max-width: 1200px;
+    width: 100%;
+	margin: 0 auto;
+}
+
+.w50{
+	width: 50%;
+	float: left;
+	display: inline-block;
+}
+
+.w100{
+	width: 100%;
+}
+
+
+#acesso_usuario{
+	display: none;
+}
+
+.btn1{
+	display: block;
+    text-align: center;
+    line-height: 40px;
+    background-color: #EB2D2D;
+    text-decoration: none;
+    border-bottom: 5px solid #B21E1E;
+    color: white;
+    font-size: 16px;
+    width: 150px;
+	font-style: italic;
+	cursor: pointer;
+}
+
+#sala_chat{
+	width: 100%;
+	margin-top: 40px;
+	display: none;
+
+}
+
+#historico_mensagens{
+	float: left;
+	width: 100%;
+	border: 1px solid #ccc;
+	height: 400px;
+	padding: 20px 2%;
+	overflow: scroll;
+}
+
+#lista_usuarios{
+	float: right;
+	width: 80%;
+	border: 1px solid #ccc;
+	height: 400px;
+	padding: 20px 2%;
+	overflow: scroll;
+}
+
+#chat{
+	width: 100%;
+}
+
+#chat input[type=text]{
+	margin-top: 20px;
+	width: 69%;
+    border: 1px solid #ccc;
+    height: 100px;
+    padding-left: 15px;
+	line-height: 40px;
+	display: inline-block;
+}
+
+#chat input[type=submit]{
+	width: 30%;
+	height: 100px;
+	display: inline-block;
+}
+
+#sair{
+	width: 80%;
+	height: 100px;
+	display: inline-block;
+	float: right;
+	margin-top: 20px;
+}
+
+
+#historico_mensagens .sistema{
+	background-color: #ce7a7a;
+	color: #FFF;
+	font-weight: bold;
+}
+
+#historico_mensagens .privada{
+	background-color: #cc8080;
+	color: #000;
+	font-weight: bold;
+}
+
+#acesso_usuario{
+	display: block;
+	height:30px;
+	left:50%;
+	margin-left:-160px;
+	margin-top:-15px;
+	position: fixed;
+	top:30%;
+	width:320px;
+}
+#acesso_usuario form{
+	margin:0 auto;
+}
+
+#acesso_usuario input[type=text]{
+	width: 100%;
+    border: 1px solid #ccc;
+    height: 80px;
+    padding-left: 15px;
+	line-height: 40px;
+	display: inline-block;
+	text-align: center;
+}
+
+#acesso_usuario input[type=submit]{
+	width: 100%;
+	margin-top: 20px;
+}
+
+#acesso_usuario h2{
+	font-weight: lighter;
+	font-size: 20px;
+	text-align: center;
+	margin-bottom: 10px;
+	color: black;
+}
+@media screen and (max-width: 800px){
+
+	#historico_mensagens{
+		width: 100%;
+	}
+	
+	#lista_usuarios{
+		width: 100%;
+	}
+
+	#chat{
+		width: 100%;
+	}
+	
+	#chat input[type=text]{
+		width: 100%;
+	}
+	
+	#chat input[type=submit]{
+		width: 100%;
+	}
+	
+	#sair{
+		width: 100%;
+	}
+
+	.w50{
+		width: 100%;
+	}
+}

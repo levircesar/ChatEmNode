@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<title>Sistemas Distribuidos Chat</title>
+	<meta charset="UTF-8">
+    <meta name="description" content="conteudo">
+    <meta cname="keywords" content="palavras,separadas,por,virgula">
+    <meta name="author" content="Levir">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+<body>
+	<!-- Div com o formulário de acesso, para inserir o apelido -->
+
+	<section class="container">
+
+		<div id='acesso_usuario'>
+			<h2>Chat de Sistemas Distribuídos</h2>
+
+			<form id='login'>
+				<input required  type='text' placeholder='Insira seu apelido' name='apelido' id='apelido' />
+				<input required  type='text' placeholder='Insira o IP' name='ip_input' id='ip_input' />
+				<input required  type='text' placeholder='Insira a porta do servidor' name='porta_serv' id='porta_serv' />
+				<input class="btn1" type='submit' value='Entrar' />
+			</form>
+		</div>
+		<!-- Div principal onde fica o painel de mensagens e lista de usuários -->
+
+		<div class="w100" id='sala_chat'>
+
+			
+			<dic class="w50">
+				<div id="historico_mensagens"></div>
+				<form id='chat' autocomplete="off">
+					<input type='text' id='texto_mensagem' name='texto_mensagem' placeholder="digite sua mensagem..." />
+					<input class="btn1" type='submit' value='Enviar mensagem!' />	
+				</form>
+			</dic>
+			
+			<div class="w50">
+				<p  multiple="multiple" id='lista_usuarios'><span value=''>Usuarios online:</span></p>
+				<input id="sair" class="btn1" type='submit' value='Sair' />
+			</div>
+			
+			<div class="clear"></div>
+		</div>
+	
+
+		<div class="clear"></div>
+
+	
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		var socket = io.connect();
+
+		// Ao enviar uma mensagem
+		$("form#chat").submit(function(e){
+			e.preventDefault();
+
+			var mensagem = $(this).find("#texto_mensagem").val();
+			var usuario = $("#lista_usuarios").val(); // Usuário selecionado na lista lateral direita
+
+			// Evento acionado no servidor para o envio da mensagem
+			// junto com o nome do usuário selecionado da lista
+			socket.emit("enviar mensagem", {msg: mensagem, usu: usuario}, function(){
+				$("form#chat #texto_mensagem").val("");
+			});
+		});
+
+		// Resposta ao envio de mensagens do servidor
+		socket.on("atualizar mensagens", function(dados){
+			var mensagem_formatada = $("<p />").text(dados.msg).addClass(dados.tipo);
+			$("#historico_mensagens").append(mensagem_formatada);
+		});
+
+		$("form#login").submit(function(e){
+			e.preventDefault();
+
+			// Evento enviado quando o usuário insere um apelido
+			socket.emit("entrar", $(this).find("#apelido").val(),$(this).find("#ip_input").val(),$(this).find("#porta_serv").val(), function(valido){
+				if(valido == 3){
+					// Se tudo estiver certo, ok
+					$("#acesso_usuario").hide();
+					$(".chamada").hide();
+					$("#sala_chat").show();
+					
+				}else if (valido ==1){
+					//SE o IP for diferente do servidor é apresentado um alert
+					$("#acesso_usuario").val("");
+					alert("IP do servidor invalido");
+				}else if (valido ==2){
+					//SE a porta for diferente da porta do servidor é apresentado um alert
+					$("#acesso_usuario").val("");
+					alert("Porta do servidor invalida");
+				}
+				else{
+					// Caso não exista nenhum usuário com o mesmo nome, o painel principal é exibido
+					$("#acesso_usuario").val("");
+					alert("Nome ja utilizado na sala");
+				}
+			});
+		});
+
+		$("#sair").click(function(e){
+			socket.close();
+			
+			window.location.replace("index.html");
+			alert('Voce deixou a sala');
+		});
+
+		// Quando servidor enviar uma nova lista de usuários
+		// o select é limpo e reinserida a opção Todos
+		// junto de toda a lista de usuários.
+		socket.on("atualizar usuarios", function(usuarios){
+			$("#lista_usuarios").empty();
+			$("#lista_usuarios").append("<span>Usuarios online: "+usuarios.length+" </span>");
+				$.each(usuarios, function(indice){
+					var opcao_usuario = $("<br><span />").text(usuarios[indice]);
+					$("#lista_usuarios").append(opcao_usuario);
+			});
+		});
+
+		socket.on("eliminar usuario", function(usuarios){
+			socket.close();
+			window.location.replace("index.html");
+			alert('Voce deixou a sala');
+		});
+
+
+	</script>
+	</section><!--container-->
+</body>
+</html>
