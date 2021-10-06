@@ -1,36 +1,26 @@
-var app = require('http').createServer(resposta); // Criando o servidor
-var fs = require('fs'); // Sistema de arquivos
-var io = require('socket.io')(app); // Socket.IO
+const express = require('express');
+const socketIO = require('socket.io');
+var app = express();
+const INDEX = '/public/index.html';
 var usuarios = []; // Lista de usuários
 var ultimas_mensagens = []; // Lista com ultimas mensagens enviadas no chat
+
 
 var ip_default = '127.0.0.1';
 var port = 3000;
 
-app.listen(process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
+
+
+
+app.use(express.static("public"));
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 console.log("Aplicação está em execução...");
 
-// Função principal de resposta as requisições do servidor
-function resposta (req, res) {
-	var arquivo = "";
-	if(req.url == "/"){
-		arquivo = __dirname + '/index.html';
-	}else{
-		arquivo = __dirname + req.url;
-	}
-	fs.readFile(arquivo,
-		function (err, data) {
-			if (err) {
-				res.writeHead(404);
-				return res.end('Página ou arquivo não encontrados');
-			}
-
-			res.writeHead(200);
-			res.end(data);
-		}
-	);
-}
+const io = socketIO(server);
 
 io.on("connection", function(socket){
 	// Método de resposta ao evento de entrar
