@@ -7,7 +7,7 @@ var ultimas_mensagens = []; // Lista com ultimas mensagens enviadas no chat
 var ip_default = '127.0.0.1';
 var port = 7000;
 
-app.listen(port);
+app.listen(process.env.PORT || port);
 
 console.log("Aplicação está em execução...");
 
