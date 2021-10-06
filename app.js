@@ -5,9 +5,9 @@ var usuarios = []; // Lista de usuários
 var ultimas_mensagens = []; // Lista com ultimas mensagens enviadas no chat
 
 var ip_default = '127.0.0.1';
-var port = 7000;
+var port = 3000;
 
-app.listen(process.env.PORT || port);
+app.listen(process.env.PORT || 3000);
 
 console.log("Aplicação está em execução...");
 
