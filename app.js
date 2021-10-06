@@ -12,7 +12,9 @@ var port = 3000;
 const PORT = process.env.PORT || 3000;
 
 
-
+app.get('/', function (req, res) {
+  res.sendFile(INDEX, { root: __dirname })
+});
 app.use(express.static("public"));
 const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
